@@ -1,11 +1,19 @@
-import React from 'react';
-// import ReactDOM from 'react-dom';
-// import * ReactDOM from 'react-dom';
+import express from 'express';
+import connectDB from '../Config/db.config.js';
+import {registerUser, loginUser} from '../server/controllers/authController.js'
+import { registerValidation } from '../server/Validation/userValidation.js';
 
-import { createRoot } from 'react-dom/client';
-import App from './App'; // require('./App').default
 
-const containerElement = document.getElementById('root');
+const app = express();
+const PORT = process.env.PORT;
 
-const root = createRoot(containerElement);
-root.render(<App />);
+connectDB();
+app.use(express.json());
+
+app.post('/api/register',registerValidation, registerUser);
+
+app.post('/api/login', loginUser);
+
+app.listen(PORT, () => {
+    console.log(`Сервер працює на порту ${PORT}`);
+});
