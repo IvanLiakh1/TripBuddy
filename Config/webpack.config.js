@@ -1,5 +1,7 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'node:path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+
+const __dirname = import.meta.dirname;
 
 const config = {
     entry: './src/index.js',
@@ -25,12 +27,20 @@ const config = {
                     },
                 ],
             },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: 'asset/resource',
+            },
         ],
     },
     resolve: {
         extensions: ['.js', '.jsx'],
     },
-    mode: "development"
+    devServer: {  historyApiFallback: true, }
 };
 
-module.exports = config;
+export default config;

@@ -1,7 +1,13 @@
-import React from 'react';
-const App = () => {
-    return <div className="App">My first app</div>;
-};
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+function App() {
+
+    return (
+        <div className="App">
+            <h2>Home</h2>
+        </div>
+    );
+}
 
 export default App;
-// export { App };

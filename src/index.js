@@ -1,19 +1,30 @@
-import express from 'express';
-import connectDB from '../Config/db.config.js';
-import {registerUser, loginUser} from '../server/controllers/authController.js'
-import { registerValidation } from '../server/Validation/userValidation.js';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './App.jsx';
+import Login from './component/auth/Login/Login.jsx';
+import Register from './component/auth/Register/Register.jsx';
 
+const router = createBrowserRouter(
+    [
+        {
+            path: '/',
+            element: <App />
+        },
+        {
+            path: '/login',
+            element: <Login />,
 
-const app = express();
-const PORT = process.env.PORT;
+        },
+        {
+            path: '/register',
+            element: <Register />
+        }
+    ]
+);
 
-connectDB();
-app.use(express.json());
-
-app.post('/api/register',registerValidation, registerUser);
-
-app.post('/api/login', loginUser);
-
-app.listen(PORT, () => {
-    console.log(`Сервер працює на порту ${PORT}`);
-});
+ReactDOM.createRoot(document.querySelector('#root')).render(
+    <React.StrictMode>
+        <RouterProvider router={router}/>
+    </React.StrictMode>
+);
