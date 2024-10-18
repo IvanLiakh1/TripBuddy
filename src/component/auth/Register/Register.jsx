@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './regStyle.css'
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [fullName, setFullName] = useState('');
@@ -9,6 +10,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -16,6 +18,7 @@ const Register = () => {
         try {
             const response = await axios.post('http://localhost:3000/api/register', { fullName, email, password });
             console.log('Реєстрація успішна:', response);
+            navigate('/login',{replace:true});
             setMessage(response.data.message);
             setErrors([]);
         } catch (err) {
@@ -31,6 +34,7 @@ const Register = () => {
             } else {
                 setErrors([{ msg: 'Сталася помилка з запитом.' }]);
             }
+            console.log(errors);
         }
     };
 
@@ -63,9 +67,11 @@ const Register = () => {
                     onChange={(e) => setFullName(e.target.value)}
                 />
                 {errors.some(error => error.path === 'fullName') && (
-                    <div className="error-message">Ім'я повинно містити не менше 3 символів.</div>
+                    <div className="error-message">Ім'я повинно містити не менше 3 символів та складатися тільки з букв.</div>
                 )}
-                {/* Додаткові поля */}
+                {errors.some(error => error.msg === 'Користувач вже існує.') && (
+                    <div className="error-message">Користувач вже існує</div>
+                )}
                 <button type="submit">Зареєструватися</button>
             </form>
             <div className="login-link">

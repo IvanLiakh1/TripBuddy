@@ -1,12 +1,22 @@
 // src/components/LoginForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { replace, useNavigate } from 'react-router-dom';
+import { isAuthOK } from '../verifyJWT.js';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isAuthOK()){
+            navigate('/',{replace: true});
+        }
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -15,6 +25,7 @@ const Login = () => {
             setMessage(response.data.message);
             localStorage.setItem('token', response.data.token);
             console.log(response.data.message);
+            navigate('/',{replace:true});
         } catch (err) {
             setError(err.response.data.message);
         }

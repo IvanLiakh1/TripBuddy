@@ -30,7 +30,7 @@ export const registerUser = async (req, res) => {
     {
         res.status(500).json({ message: 'Помилка сервера.' });
     }
-}
+};
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -42,10 +42,13 @@ export const loginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Неправильний email або пароль.' });
         }
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1s' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '40s' });
         res.status(200).json({ message: 'Авторизація успішна.', token });
     } catch (error) {
         res.status(500).json({ message: 'Помилка сервера.', error });
     }
+};
+export const getMe = async (req,res) =>{
+
 };
 

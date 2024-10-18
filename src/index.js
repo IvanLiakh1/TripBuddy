@@ -4,17 +4,22 @@ import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router
 import App from './App.jsx';
 import Login from './component/auth/Login/Login.jsx';
 import Register from './component/auth/Register/Register.jsx';
+import {RequireAuth} from './component/auth/verifyJWT.js'
 
 const router = createBrowserRouter(
     [
         {
             path: '/',
-            element: <App />
+            element: (
+                <RequireAuth>
+                    <App />
+                </RequireAuth>
+            ),
         },
         {
             path: '/login',
-            element: <Login />,
 
+            element: <Login />,
         },
         {
             path: '/register',
