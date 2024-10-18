@@ -1,7 +1,6 @@
-// src/components/RequireAuth.jsx
+import { jwtDecode } from 'jwt-decode';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import {jwtDecode}  from 'jwt-decode';
 
 export const isAuthOK = () => {
     const token = localStorage.getItem('token');
@@ -16,7 +15,7 @@ export const isAuthOK = () => {
             return false;
         }
         return true;
-    } catch (error) {
+    } catch {
         localStorage.removeItem('token');
         return false;
     }

@@ -1,4 +1,5 @@
 import path from 'node:path';
+
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const __dirname = import.meta.dirname;
@@ -40,7 +41,7 @@ const config = {
     resolve: {
         extensions: ['.js', '.jsx'],
     },
-    devServer: {  historyApiFallback: true, }
+    devServer: { historyApiFallback: true },
 };
 
 export default config;

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -9,10 +9,10 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log("DB is working");
-    } catch (err) {
-        console.error("DB error: ", err);
-        process.exit(1);
+        console.log('DB is working');
+    } catch (error) {
+        console.error('DB error:', error);
+        process.exit();
     }
 };
 

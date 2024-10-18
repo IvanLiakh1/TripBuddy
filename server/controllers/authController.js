@@ -1,8 +1,9 @@
-import connectDB from '../../Config/db.config.js';
-import {User} from '../Models/user.js';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
+
+import connectDB from '../../Config/db.config.js';
+import { User } from '../Models/user.js';
 
 await connectDB();
 
@@ -12,11 +13,10 @@ export const registerUser = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     const { fullName, email, password } = req.body;
-    try
-    {
-        const exists = await User.findOne({email});
-        if (exists){
-            return res.status(400).json({error: 'Користувач вже існує.'});
+    try {
+        const exists = await User.findOne({ email });
+        if (exists) {
+            return res.status(400).json({ error: 'Користувач вже існує.' });
         }
         const newUser = new User({
             fullName,
@@ -25,9 +25,7 @@ export const registerUser = async (req, res) => {
         });
         await newUser.save();
         res.status(201).json({ message: 'Користувач успішно створений.' });
-    }
-    catch(err)
-    {
+    } catch {
         res.status(500).json({ message: 'Помилка сервера.' });
     }
 };
@@ -38,7 +36,7 @@ export const loginUser = async (req, res) => {
         if (!user) {
             return res.status(400).json({ message: 'Неправильний email або пароль.' });
         }
-        const isMatch = await bcrypt.compare(password, user.get("password"));
+        const isMatch = await bcrypt.compare(password, user.get('password'));
         if (!isMatch) {
             return res.status(400).json({ message: 'Неправильний email або пароль.' });
         }
@@ -48,7 +46,4 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ message: 'Помилка сервера.', error });
     }
 };
-export const getMe = async (req,res) =>{
-
-};
-
+export const getMe = async (req, res) => {};

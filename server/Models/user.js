@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     fullName: {
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     dateOfBirth: {
         type: Date,
-        default: null,
+        default: undefined,
     },
     eventsAttended: {
         type: Number,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     tags: [
         {
             type: String,
-        }
+        },
     ],
     bio: {
         type: String,
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-    }
+    },
 });
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
@@ -48,6 +48,3 @@ userSchema.pre('save', async function (next) {
     next();
 });
 export const User = mongoose.model('User', userSchema);
-
-
-

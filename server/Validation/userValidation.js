@@ -4,6 +4,8 @@ export const registerValidation = [
     body('email').isEmail().withMessage('Некоректний email.'),
     body('password').isLength({ min: 5 }).withMessage('Пароль повинен містити не менше 5 символів.'),
     body('fullName')
-        .isLength({ min: 3 }).withMessage('Ім\'я повинно містити не менше 3 символів.')
-        .matches(/^[A-Za-zА-Яа-яЁёІіЇїЄє'’\s-]+$/).withMessage('Ім\'я не повинно містити цифри або спеціальні символи.'),
+        .isLength({ min: 3 })
+        .withMessage("Ім'я повинно містити не менше 3 символів.")
+        .matches(/^[\s'A-Za-zЁЄІЇА-яёєії’-]+$/)
+        .withMessage("Ім'я не повинно містити цифри або спеціальні символи."),
 ];

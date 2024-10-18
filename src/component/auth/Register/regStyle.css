@@ -54,7 +54,7 @@ button:hover {
 }
 .error-message {
     color: red;
-    font-size: 0.750em;
+    font-size: 0.75em;
     margin-left: 4px;
 }
 .success-message {
@@ -90,6 +90,7 @@ button:hover {
 .icon i {
     font-size: 14px;
 }
-input, .error-message {
+input,
+.error-message {
     margin-bottom: 10px;
 }
