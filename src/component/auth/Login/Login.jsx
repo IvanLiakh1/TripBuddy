@@ -1,6 +1,6 @@
 // src/components/LoginForm.jsx
 import axios from 'axios';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { replace, useNavigate } from 'react-router-dom';
 
 import { isAuthOK } from '../verifyJWT.js';
@@ -32,31 +32,33 @@ const Login = () => {
     };
 
     return (
-        <div className="formContainer">
-            <form onSubmit={handleLogin}>
-                <h2>Авторизація</h2>
-                <div>
-                    <input
-                        type="email"
-                        value={email}
-                        placeholder="Електронна адреса"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        value={password}
-                        placeholder="Пароль"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                {error && <p style={{ color: 'red', alignSelf: 'start', marginBottom: '5px' }}>{error}</p>}
-                <button type="submit">Увійти</button>
-                <div className="login-link">
-                    Ще не зареєструвалися? <a href="/register">Створіть аккаунт</a>
-                </div>
-            </form>
+        <div className="auth">
+            <div className="formContainer">
+                <form onSubmit={handleLogin}>
+                    <h2>Авторизація</h2>
+                    <div>
+                        <input
+                            type="email"
+                            value={email}
+                            placeholder="Електронна адреса"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="password"
+                            value={password}
+                            placeholder="Пароль"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    {error && <p style={{ color: 'red', alignSelf: 'start', marginBottom: '5px' }}>{error}</p>}
+                    <button type="submit">Увійти</button>
+                    <div className="login-link">
+                        Ще не зареєструвалися? <a href="/register">Створіть аккаунт</a>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

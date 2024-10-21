@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import Footer from './component/footer/footer.jsx';
+import Header from './component/header/header.jsx';
 
 function App() {
     return (
-        <div className="App">
-            <h2>Home</h2>
-        </div>
+        <>
+            <Header />
+            <div style={{ width: 50, height: 600 }}></div>
+            <Footer />
+        </>
     );
 }
 
