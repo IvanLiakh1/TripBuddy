@@ -40,7 +40,7 @@ const Register = () => {
     return (
         <div className="auth">
             <div className="formContainer">
-                <h2>Реєстрація</h2>
+                <h2 style={{ marginBottom: 10 }}>Реєстрація</h2>
                 <form onSubmit={handleRegister}>
                     <input
                         type="email"

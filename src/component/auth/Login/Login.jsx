@@ -35,7 +35,9 @@ const Login = () => {
         <div className="auth">
             <div className="formContainer">
                 <form onSubmit={handleLogin}>
-                    <h2>Авторизація</h2>
+                    <h2 className="center" style={{ marginBottom: 10 }}>
+                        Авторизація
+                    </h2>
                     <div>
                         <input
                             type="email"
