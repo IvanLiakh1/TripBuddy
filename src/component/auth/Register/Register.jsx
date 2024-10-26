@@ -46,6 +46,7 @@ const Register = () => {
                         type="email"
                         placeholder="Електронна адреса"
                         value={email}
+                        className="input"
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     {errors.some((error) => error.path === 'email') && (
@@ -55,6 +56,7 @@ const Register = () => {
                         type="password"
                         placeholder="Пароль"
                         value={password}
+                        className="input"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     {errors.some((error) => error.path === 'password') && (
@@ -64,6 +66,7 @@ const Register = () => {
                         type="text"
                         placeholder="Повне ім'я"
                         value={fullName}
+                        className="input"
                         onChange={(e) => setFullName(e.target.value)}
                     />
                     {errors.some((error) => error.path === 'fullName') && (
@@ -74,7 +77,9 @@ const Register = () => {
                     {errors.some((error) => error.msg === 'Користувач вже існує.') && (
                         <div className="error-message">Користувач вже існує</div>
                     )}
-                    <button type="submit">Зареєструватися</button>
+                    <button type="submit" className="button-black">
+                        Зареєструватися
+                    </button>
                 </form>
                 <div className="login-link">
                     Вже маєте акаунт? <a href="/login">Увійдіть</a>

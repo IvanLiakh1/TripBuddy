@@ -1,0 +1,27 @@
+.eventcard-container {
+    display: flex;
+    width: 240px;
+    height: 260px;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.event-card-content {
+    display: flex;
+    margin: 10px 15px;
+    gap: 8px;
+    flex-direction: column;
+}
+.event-card-image {
+    height: 160px;
+    background-color: antiquewhite;
+}
+.participants {
+    display: flex;
+    gap: 2px;
+    color: #8d8e9f;
+}
+.event-card-author {
+    color: #8d8e9f;
+}

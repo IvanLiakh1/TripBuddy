@@ -2,10 +2,10 @@ import './style.css';
 
 import React from 'react';
 
-import Footer from './component/footer/footer.jsx';
-import Header from './component/header/header.jsx';
-import cycle from './component/home/bicycle.svg';
-import photogrid from './component/home/Photo _grid.png';
+import cycle from '../../assets/bicycle.svg';
+import photogrid from '../../assets/Photo _grid.png';
+import Footer from '../../component/footer/footer.jsx';
+import Header from '../../component/header/header.jsx';
 
 function App() {
     return (
@@ -23,7 +23,7 @@ function App() {
                 <h2 className="about-us-font center" style={{ marginTop: 15, marginBottom: 10 }}>
                     НЕОБМЕЖЕНА КІЛЬКІСТЬ ВАРІАНТІВ ПРОВЕДЕННЯ ЧАСУ
                 </h2>
-                <img src={photogrid} />
+                <img src={photogrid} className="photogrid" />
             </div>
             <Footer />
         </>

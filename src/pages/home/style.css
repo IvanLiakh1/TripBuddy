@@ -19,7 +19,7 @@
     text-align: right;
     margin-right: 25px;
 }
-div > img {
+.photogrid {
     display: flex;
     width: 800px;
     margin-left: auto;

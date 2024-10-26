@@ -13,7 +13,7 @@ function Header() {
                 <Link className="nav-item" to="/">
                     Про нас
                 </Link>
-                <Link className="nav-item" to="/">
+                <Link className="nav-item" to="/events">
                     Події
                 </Link>
                 <Link className="nav-item" to="/">

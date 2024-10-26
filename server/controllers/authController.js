@@ -2,10 +2,7 @@ import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
-import connectDB from '../../Config/db.config.js';
 import { User } from '../Models/user.js';
-
-await connectDB();
 
 export const registerUser = async (req, res) => {
     const errors = validationResult(req);

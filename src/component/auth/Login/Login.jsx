@@ -43,6 +43,7 @@ const Login = () => {
                             type="email"
                             value={email}
                             placeholder="Електронна адреса"
+                            className="input"
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
@@ -51,11 +52,14 @@ const Login = () => {
                             type="password"
                             value={password}
                             placeholder="Пароль"
+                            className="input"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     {error && <p style={{ color: 'red', alignSelf: 'start', marginBottom: '5px' }}>{error}</p>}
-                    <button type="submit">Увійти</button>
+                    <button type="submit" className="button-black">
+                        Увійти
+                    </button>
                     <div className="login-link">
                         Ще не зареєструвалися? <a href="/register">Створіть аккаунт</a>
                     </div>
