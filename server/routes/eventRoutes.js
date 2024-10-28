@@ -1,6 +1,12 @@
-import { Event } from '../Models/event.js';
+import express from 'express';
 
-export const createEvent = async (req, res) => {
+import { verifyToken } from '../middleware/authMiddleware.js';
+import { Event } from '../Models/event.js';
+import { createEventValidation } from '../validation/eventValidation.js';
+
+const router = express.Router();
+
+router.post('/create', verifyToken, createEventValidation, async (req, res) => {
     try {
         const { title, description, startLocation, endLocation, startDate, endDate, maxParticipants, tags, image } =
             req.body;
@@ -22,8 +28,8 @@ export const createEvent = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Помилка сервера', error: error.message });
     }
-};
-export const searchEvents = async (req, res) => {
+});
+router.get('/search', verifyToken, async (req, res) => {
     try {
         const searchQuery = req.query.q || '';
         const regex = new RegExp(searchQuery, 'i');
@@ -32,4 +38,6 @@ export const searchEvents = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Помилка сервера', error: error.message });
     }
-};
+});
+
+export default router;

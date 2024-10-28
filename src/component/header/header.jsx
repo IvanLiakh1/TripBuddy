@@ -3,8 +3,10 @@ import './HeaderStyle.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { isAuthOK } from '../auth/verifyJWT.js';
 import profile from './profileIcon.svg';
 
+const user = isAuthOK();
 function Header() {
     return (
         <div className="header">
@@ -22,7 +24,7 @@ function Header() {
                 <Link className="nav-item" to="/">
                     Додати
                 </Link>
-                <Link className="nav-item" to="/">
+                <Link className="nav-item" to={`/profile`}>
                     <img src={profile} className="profile-icon" />
                 </Link>
             </div>

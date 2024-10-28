@@ -1,4 +1,3 @@
-// src/component/auth/verifyJWT.js
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useContext } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';

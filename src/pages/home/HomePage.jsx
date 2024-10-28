@@ -7,7 +7,7 @@ import photogrid from '../../assets/Photo _grid.png';
 import Footer from '../../component/footer/footer.jsx';
 import Header from '../../component/header/header.jsx';
 
-function App() {
+function HomePage() {
     return (
         <>
             <Header />
@@ -30,4 +30,4 @@ function App() {
     );
 }
 
-export default App;
+export default HomePage;

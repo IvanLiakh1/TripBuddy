@@ -23,14 +23,15 @@ const config = {
             },
         },
         react: {
-            version: "detect",
+            version: 'detect',
         },
     },
     plugins: ['simple-import-sort', 'react'],
-    ignorePatterns: ['node_modules', 'package-lock.json', 'package.json','*.css'],
+    ignorePatterns: ['node_modules', 'package-lock.json', 'package.json', '*.css'],
     rules: {
         'no-unused-vars': 'off',
         'no-undef': 'off',
+        'import/no-unresolved': 'off',
         'unicorn/prefer-logical-operator-over-ternary': 'off',
         'unicorn/no-null': 'off',
         'unicorn/prefer-module': 'off',
@@ -42,12 +43,10 @@ const config = {
         'import/first': 'error',
         'import/newline-after-import': 'error',
         'unicorn/filename-case': 'off',
-        'unicorn/no-process-exit':'off',
+        'unicorn/no-process-exit': 'off',
         'react/no-unescaped-entities': 'off',
         'react/prop-types': 'off',
         'react/jsx-no-undef': 'off',
-
-
     },
     overrides: [
         {

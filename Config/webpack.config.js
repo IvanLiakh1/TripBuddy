@@ -1,5 +1,6 @@
 import path from 'node:path';
 
+import crypto from 'crypto-browserify';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const __dirname = import.meta.dirname;
@@ -40,6 +41,14 @@ const config = {
     },
     resolve: {
         extensions: ['.js', '.jsx'],
+        fallback: {
+            crypto: 'crypto-browserify',
+            vm: 'vm-browserify',
+            stream: 'stream-browserify',
+            assert: 'assert',
+            buffer: 'buffer',
+            process: 'process/browser',
+        },
     },
     devServer: { historyApiFallback: true },
 };

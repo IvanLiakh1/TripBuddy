@@ -1,10 +1,17 @@
+import process from 'node:process';
+
 import bcrypt from 'bcrypt';
+import express from 'express';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
+import { verifyToken } from '../middleware/authMiddleware.js';
 import { User } from '../Models/user.js';
+import { registerValidation } from '../validation/userValidation.js';
 
-export const registerUser = async (req, res) => {
+const router = express.Router();
+
+router.post('/register', registerValidation, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -25,8 +32,8 @@ export const registerUser = async (req, res) => {
     } catch {
         res.status(500).json({ message: 'Помилка сервера.' });
     }
-};
-export const loginUser = async (req, res) => {
+});
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
@@ -42,5 +49,19 @@ export const loginUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Помилка сервера.', error });
     }
-};
-export const getMe = async (req, res) => {};
+});
+router.get('/users/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        console.log(userId);
+        const user = await User.findById(userId).select(-'password');
+        if (!user) {
+            return res.status(404).json({ message: 'Користувача не знайдено' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Помилка сервера', error: error.message });
+    }
+});
+
+export default router;
