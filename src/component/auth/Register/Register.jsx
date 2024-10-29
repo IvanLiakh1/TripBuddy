@@ -8,6 +8,7 @@ const Register = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [dateOfBirth, setdateOfBirth] = useState('');
     const [errors, setErrors] = useState([]);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -15,7 +16,12 @@ const Register = () => {
         error.preventDefault();
         console.log('Надсилаємо запит на реєстрацію...');
         try {
-            const response = await axios.post('http://localhost:3000/api/register', { fullName, email, password });
+            const response = await axios.post('http://localhost:3000/api/register', {
+                fullName,
+                email,
+                password,
+                dateOfBirth,
+            });
             console.log('Реєстрація успішна:', response);
             navigate('/login', { replace: true });
             setMessage(response.data.message);
@@ -73,6 +79,16 @@ const Register = () => {
                         <div className="error-message">
                             Ім'я повинно містити не менше 3 символів та складатися тільки з букв.
                         </div>
+                    )}
+                    <input
+                        type="date"
+                        placeholder=""
+                        value={dateOfBirth}
+                        className="input"
+                        onChange={(e) => setdateOfBirth(e.target.value)}
+                    />
+                    {errors.some((error) => error.path === 'dateOfBirth') && (
+                        <div className="error-message">Некоректна дата</div>
                     )}
                     {errors.some((error) => error.msg === 'Користувач вже існує.') && (
                         <div className="error-message">Користувач вже існує</div>

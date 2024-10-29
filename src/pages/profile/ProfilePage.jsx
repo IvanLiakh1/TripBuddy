@@ -7,12 +7,14 @@ import defaultAvatar from '../../assets/profileIcon.svg';
 import { isAuthOK } from '../../component/auth/verifyJWT.js';
 import Footer from '../../component/footer/footer.jsx';
 import Header from '../../component/header/header.jsx';
+import EditProfile from '../../component/user/editProfile.jsx';
 
 const user = isAuthOK();
 const ProfilePage = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -26,6 +28,18 @@ const ProfilePage = () => {
         };
         fetchUserData();
     }, []);
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleSave = (updatedUserData) => {
+        setUserData(updatedUserData);
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+    };
     if (loading) {
         return <p>Завантаження...</p>;
     }
@@ -41,32 +55,49 @@ const ProfilePage = () => {
         <>
             <Header />
             <div className="profile-container position-center-width">
-                <div className="profile-header">
-                    <div>
-                        <img src={userData.avatar || defaultAvatar} alt="Avatar" className="avatar" />
-                    </div>
-                    <div>
-                        <h2>
-                            {userData.fullName}
-                            {userData.dateOfBirth && (
-                                <>, {new Date().getFullYear() - new Date(userData.dateOfBirth).getFullYear()}</>
-                            )}
-                        </h2>
-                        {userData.tags.length > 0 ? (
-                            userData.tags.map((tag, index) => (
-                                <span key={index} className="tags">
-                                    {tag}
-                                </span>
-                            ))
-                        ) : (
-                            <p>Немає подій для відображення.</p>
-                        )}
-                    </div>
-                </div>
-                <div style={{ marginLeft: 5 }}>
-                    <div className="events-count">Кількість відвіданих подій: {userData.eventsAttended}</div>
-                    <p style={{ marginTop: 10 }}>{userData.bio}</p>
-                </div>
+                {isEditing ? (
+                    <EditProfile userData={userData} onSave={handleSave} onCancel={handleCancel} />
+                ) : (
+                    <>
+                        <div className="profile-header">
+                            <div>
+                                <img
+                                    src={userData.avatar ? `data:image/png;base64,${userData.avatar}` : defaultAvatar}
+                                    alt="Avatar"
+                                    className="avatar"
+                                />
+                            </div>
+                            <div>
+                                <div className="name-field-profile">
+                                    <h2>
+                                        {userData.fullName}
+                                        {userData.dateOfBirth && (
+                                            <>
+                                                ,{' '}
+                                                {new Date().getFullYear() -
+                                                    new Date(userData.dateOfBirth).getFullYear()}
+                                            </>
+                                        )}
+                                    </h2>
+                                    <button className="edit-profile-button tags" onClick={handleEditClick}>
+                                        Редагувати профіль
+                                    </button>
+                                </div>
+                                {userData.tags.length > 0
+                                    ? userData.tags.map((tag, index) => (
+                                          <span key={index} className="tags">
+                                              {tag}
+                                          </span>
+                                      ))
+                                    : null}
+                            </div>
+                        </div>
+                        <div className="profile-body" style={{ marginLeft: 5 }}>
+                            <p style={{ marginBottom: 10 }}>Кількість відвіданих подій: {userData.eventsAttended}</p>
+                            <p className="">{userData.bio}</p>
+                        </div>
+                    </>
+                )}
             </div>
 
             <Footer />
