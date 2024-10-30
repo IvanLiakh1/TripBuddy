@@ -8,6 +8,8 @@ const connectDB = async () => {
         await mongoose.connect(process.env.DB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            tls: true,
+            tlsAllowInvalidCertificates: true,
         });
         console.log('DB is working');
     } catch (error) {

@@ -1,15 +1,16 @@
 import express from 'express';
+import multer from 'multer';
 
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { Event } from '../Models/event.js';
 import { createEventValidation } from '../validation/eventValidation.js';
 
 const router = express.Router();
-
-router.post('/create', verifyToken, createEventValidation, async (req, res) => {
+const upload = multer();
+router.post('/create', verifyToken, upload.single('image'), createEventValidation, async (req, res) => {
     try {
-        const { title, description, startLocation, endLocation, startDate, endDate, maxParticipants, tags, image } =
-            req.body;
+        console.log('Тіло запиту:', req.body);
+        const { title, description, startLocation, endLocation, startDate, endDate, maxParticipants, tags } = req.body;
         const author = req.user.id;
         const newEvent = new Event({
             title,
@@ -20,12 +21,15 @@ router.post('/create', verifyToken, createEventValidation, async (req, res) => {
             endDate,
             maxParticipants,
             tags,
-            image,
             author,
         });
+        if (req.file) {
+            newEvent.image = req.file.buffer.toString('base64');
+        }
         await newEvent.save();
         res.status(201).json({ message: 'Подію створено успішно', event: newEvent });
     } catch (error) {
+        console.error('Помилка при створенні події:', error);
         res.status(500).json({ message: 'Помилка сервера', error: error.message });
     }
 });

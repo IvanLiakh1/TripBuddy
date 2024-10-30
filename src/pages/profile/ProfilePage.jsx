@@ -5,8 +5,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../server/axios/axiosInstance.js';
 import defaultAvatar from '../../assets/profileIcon.svg';
 import { isAuthOK } from '../../component/auth/verifyJWT.js';
-import Footer from '../../component/footer/footer.jsx';
-import Header from '../../component/header/header.jsx';
+import Layout from '../../component/layout.js';
 import EditProfile from '../../component/user/editProfile.jsx';
 
 const user = isAuthOK();
@@ -52,8 +51,7 @@ const ProfilePage = () => {
         return <p>Користувача не знайдено.</p>;
     }
     return (
-        <>
-            <Header />
+        <Layout>
             <div className="profile-container position-center-width">
                 {isEditing ? (
                     <EditProfile userData={userData} onSave={handleSave} onCancel={handleCancel} />
@@ -99,9 +97,7 @@ const ProfilePage = () => {
                     </>
                 )}
             </div>
-
-            <Footer />
-        </>
+        </Layout>
     );
 };
 

@@ -21,7 +21,7 @@ function Header() {
                 <Link className="nav-item" to="/">
                     Останні
                 </Link>
-                <Link className="nav-item" to="/">
+                <Link className="nav-item" to="/create">
                     Додати
                 </Link>
                 <Link className="nav-item" to={`/profile`}>

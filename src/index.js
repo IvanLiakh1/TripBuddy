@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './component/auth/Login/Login.jsx';
 import Register from './component/auth/Register/Register.jsx';
 import { RequireAuth } from './component/auth/verifyJWT.js';
+import EventConstructorPage from './pages/events/eventConstructorPage.jsx';
 import EventsPage from './pages/events/eventsPage.jsx';
 import HomePage from './pages/home/HomePage.jsx';
 import Profilepage from './pages/profile/ProfilePage.jsx';
@@ -36,11 +37,11 @@ const router = createBrowserRouter([
     },
     {
         path: '/profile',
-        element: (
-            <RequireAuth>
-                <Profilepage />
-            </RequireAuth>
-        ),
+        element: <Profilepage />,
+    },
+    {
+        path: '/create',
+        element: <EventConstructorPage />,
     },
 ]);
 

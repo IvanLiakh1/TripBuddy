@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/', authRoutes);
-app.use('/api/events', eventRoutes);
+app.use('/api/event', eventRoutes);
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.get('*', (req, res) => {

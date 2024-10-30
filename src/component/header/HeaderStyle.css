@@ -15,15 +15,17 @@
 }
 .nav-item {
     text-decoration: none;
+    color: black;
+    font-size: 18px;
 }
 .logo {
     font-family: 'Pacifico', serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 28px;
+    font-size: 32px;
 }
 .profile-icon {
     border-radius: 50px;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
 }

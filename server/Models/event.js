@@ -37,7 +37,7 @@ const eventSchema = new mongoose.Schema(
         },
         image: {
             type: String,
-            required: true,
+            default: '',
         },
         author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     },
