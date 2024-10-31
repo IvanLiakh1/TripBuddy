@@ -6,7 +6,6 @@ import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 
-import { verifyToken } from '../middleware/authMiddleware.js';
 import { User } from '../Models/user.js';
 import { registerValidation } from '../validation/userValidation.js';
 

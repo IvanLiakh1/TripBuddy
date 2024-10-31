@@ -130,7 +130,7 @@ function EventConstructorPage() {
         <div className="app-container">
             <Layout>
                 <div className="position-center-width">
-                    <div className="create-event" style={{ marginTop: 20 }}>
+                    <div className="create-event">
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         <div
                             style={{
@@ -264,16 +264,16 @@ function EventConstructorPage() {
                             {formErrors.maxParticipants && <p style={{ color: 'red' }}>{formErrors.maxParticipants}</p>}
                         </div>
 
-                        <div className="buttons">
+                        <div className="buttons-constructor-page">
                             <button
                                 onClick={handleCancel}
-                                className="button-black"
-                                style={{ width: 150, backgroundColor: 'darkred' }}
+                                className="button-bordered"
+                                style={{ backgroundColor: '#CDCDCD', color: '#2C2C2C' }}
                             >
                                 Скасувати
                             </button>
-                            <button onClick={handleSaveChanges} className="button-black" style={{ width: 150 }}>
-                                Зберегти
+                            <button onClick={handleSaveChanges} className="button-bordered">
+                                Додати подію
                             </button>
                         </div>
                     </div>

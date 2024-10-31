@@ -29,8 +29,15 @@ const eventSchema = new mongoose.Schema(
         maxParticipants: {
             type: Number,
             required: true,
-            min: 1,
+            min: 2,
         },
+
+        participants: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User',
+            default: [],
+        },
+
         tags: {
             type: [String],
             default: [],

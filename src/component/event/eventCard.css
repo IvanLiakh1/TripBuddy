@@ -18,6 +18,7 @@
 }
 .participants {
     display: flex;
+    align-items: center;
     gap: 2px;
     color: #8d8e9f;
 }

@@ -12,8 +12,8 @@ import Layout from '../../component/layout.js';
 function EventsPage() {
     const [events, setEvents] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [sortBy, setSortBy] = useState('title'); // Тип сортування
-    const [order, setOrder] = useState('asc'); // Порядок сортування
+    const [sortBy, setSortBy] = useState('title');
+    const [order, setOrder] = useState('asc');
 
     const fetchEvents = async (query = '', sortBy = 'title', order = 'asc') => {
         try {
@@ -40,7 +40,7 @@ function EventsPage() {
                 <div className="events-page position-center-width">
                     <img src={photo} className="" style={{ marginTop: 10 }} alt="events" />
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div className="search-container">
+                        <div className="search-container" style={{ width: 650 }}>
                             <img src={glass} />
                             <form onSubmit={handleSearch}>
                                 <input
@@ -49,6 +49,7 @@ function EventsPage() {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="search_input"
+                                    style={{ width: 650 }}
                                 />
                             </form>
                         </div>
@@ -59,15 +60,7 @@ function EventsPage() {
 
                     <div className="events-grid">
                         {events.length > 0 ? (
-                            events.map((event) => (
-                                <EventCard
-                                    key={event._id}
-                                    title={event.title}
-                                    author={event.author.fullName}
-                                    participants={event.maxParticipants}
-                                    image={event.image}
-                                />
-                            ))
+                            events.map((event) => <EventCard key={event.id} event={event} />)
                         ) : (
                             <p>Немає подій для відображення.</p>
                         )}

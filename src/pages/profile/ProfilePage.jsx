@@ -51,53 +51,59 @@ const ProfilePage = () => {
         return <p>Користувача не знайдено.</p>;
     }
     return (
-        <Layout>
-            <div className="profile-container position-center-width">
-                {isEditing ? (
-                    <EditProfile userData={userData} onSave={handleSave} onCancel={handleCancel} />
-                ) : (
-                    <>
-                        <div className="profile-header">
-                            <div>
-                                <img
-                                    src={userData.avatar ? `data:image/png;base64,${userData.avatar}` : defaultAvatar}
-                                    alt="Avatar"
-                                    className="avatar"
-                                />
-                            </div>
-                            <div>
-                                <div className="name-field-profile">
-                                    <h2>
-                                        {userData.fullName}
-                                        {userData.dateOfBirth && (
-                                            <>
-                                                ,{' '}
-                                                {new Date().getFullYear() -
-                                                    new Date(userData.dateOfBirth).getFullYear()}
-                                            </>
-                                        )}
-                                    </h2>
-                                    <button className="edit-profile-button tags" onClick={handleEditClick}>
-                                        Редагувати профіль
-                                    </button>
+        <div className="app-container">
+            <Layout>
+                <div className="profile-container position-center-width">
+                    {isEditing ? (
+                        <EditProfile userData={userData} onSave={handleSave} onCancel={handleCancel} />
+                    ) : (
+                        <>
+                            <div className="profile-header">
+                                <div>
+                                    <img
+                                        src={
+                                            userData.avatar ? `data:image/png;base64,${userData.avatar}` : defaultAvatar
+                                        }
+                                        alt="Avatar"
+                                        className="avatar"
+                                    />
                                 </div>
-                                {userData.tags.length > 0
-                                    ? userData.tags.map((tag, index) => (
-                                          <span key={index} className="tags">
-                                              {tag}
-                                          </span>
-                                      ))
-                                    : null}
+                                <div>
+                                    <div className="name-field-profile">
+                                        <h2>
+                                            {userData.fullName}
+                                            {userData.dateOfBirth && (
+                                                <>
+                                                    ,{' '}
+                                                    {new Date().getFullYear() -
+                                                        new Date(userData.dateOfBirth).getFullYear()}
+                                                </>
+                                            )}
+                                        </h2>
+                                        <button className="edit-profile-button tags" onClick={handleEditClick}>
+                                            Редагувати профіль
+                                        </button>
+                                    </div>
+                                    {userData.tags.length > 0
+                                        ? userData.tags.map((tag, index) => (
+                                              <span key={index} className="tags">
+                                                  {tag}
+                                              </span>
+                                          ))
+                                        : null}
+                                </div>
                             </div>
-                        </div>
-                        <div className="profile-body" style={{ marginLeft: 5 }}>
-                            <p style={{ marginBottom: 10 }}>Кількість відвіданих подій: {userData.eventsAttended}</p>
-                            <p className="">{userData.bio}</p>
-                        </div>
-                    </>
-                )}
-            </div>
-        </Layout>
+                            <div className="profile-body" style={{ marginLeft: 5 }}>
+                                <p style={{ marginBottom: 10 }}>
+                                    Кількість відвіданих подій: {userData.eventsAttended}
+                                </p>
+                                <p className="">{userData.bio}</p>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </Layout>
+        </div>
     );
 };
 
