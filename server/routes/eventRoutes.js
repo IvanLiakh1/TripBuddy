@@ -18,6 +18,7 @@ router.get('/search', verifyToken, async (req, res) => {
         res.status(500).json({ message: 'Помилка сервера', error: error.message });
     }
 });
+
 router.post('/create', verifyToken, upload.single('image'), createEventValidation, async (req, res) => {
     try {
         console.log('Тіло запиту:', req.body);

@@ -1,0 +1,28 @@
+/* filterPopup.css */
+.filter-popup {
+    position: absolute;
+    top: 340px;
+    right: 240px;
+    width: 250px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+}
+.filter-popup-content {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.filter-popup_close-button {
+    color: red;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
