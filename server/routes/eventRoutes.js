@@ -12,7 +12,9 @@ router.get('/search', verifyToken, async (req, res) => {
     try {
         const searchQuery = req.query.q || '';
         const regex = new RegExp(searchQuery, 'i');
-        const events = await Event.find({ title: regex }).populate('author', 'fullName');
+        const events = await Event.find({
+            $or: [{ title: regex }, { tags: { $regex: regex } }],
+        }).populate('author', 'fullName');
         res.status(200).json(events);
     } catch (error) {
         res.status(500).json({ message: 'Помилка сервера', error: error.message });
@@ -113,12 +115,18 @@ router.put('/:id/leave', async (req, res) => {
 const checkExpiredEvents = async () => {
     try {
         const currentDate = new Date();
+        const expiredEvents = await Event.find({ endDate: { $lt: currentDate } });
+        for (const event of expiredEvents) {
+            await User.updateMany({ _id: { $in: event.participants } }, { $inc: { eventsAttended: 1 } });
+            console.log(`Оновлено кількість відвіданих подій для учасників події з ID: ${event._id}`);
+        }
         const result = await Event.deleteMany({ endDate: { $lt: currentDate } });
         console.log(`Видалено ${result.deletedCount} подій, які закінчилися.`);
     } catch (error) {
         console.error('Помилка при видаленні подій:', error);
     }
 };
+
 setInterval(checkExpiredEvents, 3_600_000);
 
 export default router;

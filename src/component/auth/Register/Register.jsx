@@ -1,4 +1,4 @@
-import './regStyle.css';
+import '../AuthPagesStyle.css';
 
 import axios from 'axios';
 import React, { useState } from 'react';

@@ -3,8 +3,8 @@ import './eventCard.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import image2 from '../../assets/image 2.png';
-import image3 from '../../assets/Participantsimg.svg';
+import image2 from '../../../assets/EventPrimaryImage.jpg';
+import image3 from '../../../assets/Participantsimg.svg';
 
 function EventCard({ event }) {
     const navigate = useNavigate();

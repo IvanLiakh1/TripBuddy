@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import axiosInstance from '../../../server/axios/axiosInstance.js';
-import defimage from '../../assets/image 2.png';
-import Layout from '../../component/layout.js';
+import axiosInstance from '../../../../server/axios/axiosInstance.js';
+import defimage from '../../../assets/EventPrimaryImage.jpg';
+import Layout from '../../../component/layout.js';
 
 function EventConstructorPage() {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ function EventConstructorPage() {
         endLocation: '',
         startDate: '',
         endDate: '',
-        maxParticipants: '',
+        maxParticipants: 2,
         tags: [],
         image: null,
     });
@@ -22,6 +22,7 @@ function EventConstructorPage() {
     const [error, setError] = useState(null);
     const [formErrors, setFormErrors] = useState({});
     const [previewImage, setPreviewImage] = useState(defimage);
+
     const getTodayDate = () => {
         const today = new Date();
         return today.toISOString().split('T')[0];
@@ -29,10 +30,11 @@ function EventConstructorPage() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        if (name === 'tags') {
+            setFormData({ ...formData, tags: value.split(',').map((tag) => tag.trim()) });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleImageChange = (e) => {
@@ -40,13 +42,7 @@ function EventConstructorPage() {
         if (file) {
             setSelectedFile(file);
             const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewImage(reader.result);
-                setFormData((prev) => ({
-                    ...prev,
-                    image: reader.result,
-                }));
-            };
+            reader.onloadend = () => setPreviewImage(reader.result);
             reader.readAsDataURL(file);
         }
     };
@@ -84,6 +80,8 @@ function EventConstructorPage() {
             errors.endDate = "Дата закінчення є обов'язковою";
         } else if (!Date.parse(formData.endDate)) {
             errors.endDate = 'Дата закінчення повинна бути у форматі ISO 8601';
+        } else if (formData.startDate && formData.endDate < formData.startDate) {
+            errors.endDate = 'Дата закінчення повинна бути пізніше дати початку';
         }
 
         if (!formData.maxParticipants || formData.maxParticipants < 2) {
@@ -92,12 +90,14 @@ function EventConstructorPage() {
 
         return errors;
     };
+
     const handleSaveChanges = async () => {
         const errors = validateForm();
         if (Object.keys(errors).length > 0) {
             setFormErrors(errors);
             return;
         }
+
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
         formDataToSend.append('description', formData.description);
@@ -106,15 +106,14 @@ function EventConstructorPage() {
         formDataToSend.append('startDate', formData.startDate);
         formDataToSend.append('endDate', formData.endDate);
         formDataToSend.append('maxParticipants', formData.maxParticipants);
-        formDataToSend.append('tags', []);
+        for (const tag of formData.tags) formDataToSend.append('tags[]', tag);
         if (selectedFile) {
             formDataToSend.append('image', selectedFile);
         }
+
         try {
-            const response = await axiosInstance.post(`/event/create`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            await axiosInstance.post(`/event/create`, formDataToSend, {
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
             navigate('/');
         } catch (error_) {
@@ -122,6 +121,7 @@ function EventConstructorPage() {
             setError(error_.response?.data?.message || 'Помилка при збереженні даних');
         }
     };
+
     const handleCancel = () => {
         navigate('/');
     };
@@ -262,6 +262,18 @@ function EventConstructorPage() {
                                 />
                             </div>
                             {formErrors.maxParticipants && <p style={{ color: 'red' }}>{formErrors.maxParticipants}</p>}
+                        </div>
+
+                        <h2 className="create-event-font">Теги події </h2>
+                        <div className="search-container">
+                            <input
+                                type="text"
+                                name="tags"
+                                placeholder="Введіть теги через кому"
+                                value={formData.tags.join(', ')}
+                                onChange={handleInputChange}
+                                className="search_input"
+                            />
                         </div>
 
                         <div className="buttons-constructor-page">

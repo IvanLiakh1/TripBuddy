@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import axiosInstance from '../../../server/axios/axiosInstance.js';
-import defImage from '../../assets/image 2.png';
-import line from '../../assets/Line.svg';
-import map from '../../assets/Map.svg';
-import participants from '../../assets/Participantsimg.svg';
-import { AuthContext } from '../../component/auth/verifyJWT.js';
-import Layout from '../../component/layout.js';
-import ParticipantsModal from './ParticipantsModal.jsx';
+import axiosInstance from '../../../../server/axios/axiosInstance.js';
+import defImage from '../../../assets/EventPrimaryImage.jpg';
+import line from '../../../assets/Line.svg';
+import map from '../../../assets/Map.svg';
+import participants from '../../../assets/Participantsimg.svg';
+import { AuthContext } from '../../../component/auth/verifyJWT.js';
+import ParticipantsModal from '../../../component/event/ModalWindow/ParticipantsModal.jsx';
+import Layout from '../../../component/layout.js';
 
 function EventInfo() {
     const location = useLocation();
@@ -97,7 +97,7 @@ function EventInfo() {
     if (!event || !user) return <p>Завантаження...</p>;
     const currentDate = new Date();
     const isAuthor = event.author?._id === user.id;
-    let isFull = event.participants === event.maxParticipants;
+    let isFull = event.participants.length === event.maxParticipants;
     if (event.startDate < currentDate) isFull = true;
     return (
         <div className="app-container">
@@ -112,7 +112,7 @@ function EventInfo() {
                         <div style={{ marginLeft: 25, display: 'flex', flexDirection: 'column', gap: 10 }}>
                             <div className="event-title-button-container">
                                 <p style={{ fontSize: 30 }}>{event.title}</p>
-                                {isFull &&
+                                {!isFull &&
                                     !isAuthor &&
                                     (isParticipant ? (
                                         <button

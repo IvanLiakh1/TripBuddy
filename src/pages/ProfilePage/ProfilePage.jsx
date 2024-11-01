@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import axiosInstance from '../../../server/axios/axiosInstance.js';
 import defaultAvatar from '../../assets/profileIcon.svg';
-import { isAuthOK } from '../../component/auth/verifyJWT.js';
+import { isAuthOK, logout } from '../../component/auth/verifyJWT.js';
 import Layout from '../../component/layout.js';
 import EditProfile from '../../component/user/editProfile.jsx';
 
@@ -70,7 +70,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div>
                                     <div className="name-field-profile">
-                                        <h2>
+                                        <span>
                                             {userData.fullName}
                                             {userData.dateOfBirth && (
                                                 <>
@@ -79,12 +79,29 @@ const ProfilePage = () => {
                                                         new Date(userData.dateOfBirth).getFullYear()}
                                                 </>
                                             )}
-                                        </h2>
-                                        {isOwnProfile && (
-                                            <button className="edit-profile-button tags" onClick={handleEditClick}>
-                                                Редагувати профіль
-                                            </button>
-                                        )}
+                                        </span>
+
+                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'end' }}>
+                                            {isOwnProfile && (
+                                                <>
+                                                    <button className="button-bordered" onClick={handleEditClick}>
+                                                        Редагувати профіль
+                                                    </button>
+                                                    <button
+                                                        className="button-bordered"
+                                                        style={{
+                                                            width: 100,
+                                                            marginLeft: 5,
+                                                            backgroundColor: '#CDCDCD',
+                                                            color: '#2C2C2C',
+                                                        }}
+                                                        onClick={logout}
+                                                    >
+                                                        Вийти
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                     {userData.tags.length > 0
                                         ? userData.tags.map((tag, index) => (
@@ -96,10 +113,10 @@ const ProfilePage = () => {
                                 </div>
                             </div>
                             <div className="profile-body" style={{ marginLeft: 5 }}>
-                                <p style={{ marginBottom: 10 }}>
+                                <p style={{ marginBottom: 10, fontSize: 20 }}>
                                     Кількість відвіданих подій: {userData.eventsAttended}
                                 </p>
-                                <p className="">{userData.bio}</p>
+                                <p className="bio">{userData.bio}</p>
                             </div>
                         </>
                     )}

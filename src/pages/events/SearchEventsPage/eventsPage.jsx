@@ -1,16 +1,16 @@
-import './events.css';
+import '../events.css';
 
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import axiosInstance from '../../../server/axios/axiosInstance.js';
-import photo from '../../assets/eventsPhoto.png';
-import filter from '../../assets/filter.svg';
-import glass from '../../assets/MagnifyingGlass.svg';
-import { isAuthOK } from '../../component/auth/verifyJWT.js';
-import EventCard from '../../component/event/EventCard.jsx';
-import Layout from '../../component/layout.js';
-import FilterPopup from './FilterPopUp.jsx';
+import axiosInstance from '../../../../server/axios/axiosInstance.js';
+import photo from '../../../assets/eventsPhoto.jpg';
+import filter from '../../../assets/filter.svg';
+import glass from '../../../assets/MagnifyingGlass.svg';
+import { isAuthOK } from '../../../component/auth/verifyJWT.js';
+import EventCard from '../../../component/event/EventCard/EventCard.jsx';
+import FilterPopup from '../../../component/event/PopUp/FilterPopUp.jsx';
+import Layout from '../../../component/layout.js';
 
 function EventsPage() {
     const [events, setEvents] = useState([]);
@@ -31,6 +31,7 @@ function EventsPage() {
     const fetchEvents = async () => {
         try {
             const response = await axiosInstance.get(`/event/search?sortBy=${sortBy}&order=${order}`);
+            console.log(response.data);
             setEvents(response.data);
             setFilteredEvents(response.data);
         } catch (error) {
@@ -46,7 +47,11 @@ function EventsPage() {
         let updatedEvents = [...events];
         if (searchQuery) {
             const regex = new RegExp(searchQuery, 'i');
-            updatedEvents = updatedEvents.filter((event) => regex.test(event.title));
+            updatedEvents = updatedEvents.filter((event) => {
+                const matchesTitle = regex.test(event.title);
+                const matchesTags = event.tags.some((tag) => regex.test(tag));
+                return matchesTitle || matchesTags;
+            });
         }
         if (filterBy === 'created') {
             updatedEvents = updatedEvents.filter((event) => event.author._id === userId);
@@ -79,7 +84,7 @@ function EventsPage() {
         <div className="app-container">
             <Layout>
                 <div className="events-page position-center-width">
-                    <img src={photo} className="" style={{ marginTop: 10 }} alt="events" />
+                    <img src={photo} className="evens-page-landing-photo" alt="events" />
                     <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                         <div className="search-container" style={{ width: 650 }}>
                             <img src={glass} alt="search" />
@@ -108,7 +113,6 @@ function EventsPage() {
                         )}
                     </div>
 
-                    {/* Спливаюче вікно фільтрації */}
                     <FilterPopup
                         isOpen={isFilterPopupOpen}
                         onClose={() => setIsFilterPopupOpen(false)}

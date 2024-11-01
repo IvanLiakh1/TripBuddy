@@ -5,11 +5,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './component/auth/Login/Login.jsx';
 import Register from './component/auth/Register/Register.jsx';
 import { RequireAuth } from './component/auth/verifyJWT.js';
-import EventConstructorPage from './pages/events/eventConstructorPage.jsx';
-import EventInfo from './pages/events/eventInfo.jsx';
-import EventsPage from './pages/events/eventsPage.jsx';
-import HomePage from './pages/home/HomePage.jsx';
-import Profilepage from './pages/profile/ProfilePage.jsx';
+import EventConstructorPage from './pages/events/CreatePage/eventConstructorPage.jsx';
+import EventInfo from './pages/events/EventInfoPage/eventInfo.jsx';
+import EventsPage from './pages/events/SearchEventsPage/eventsPage.jsx';
+import HomePage from './pages/HomePage/HomePage.jsx';
+import Profilepage from './pages/ProfilePage/ProfilePage.jsx';
 
 const router = createBrowserRouter([
     {
@@ -38,11 +38,19 @@ const router = createBrowserRouter([
     },
     {
         path: '/profile',
-        element: <Profilepage />,
+        element: (
+            <RequireAuth>
+                <Profilepage />
+            </RequireAuth>
+        ),
     },
     {
         path: '/create',
-        element: <EventConstructorPage />,
+        element: (
+            <RequireAuth>
+                <EventConstructorPage />
+            </RequireAuth>
+        ),
     },
     {
         path: 'event',

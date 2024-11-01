@@ -4,6 +4,15 @@
     flex: 1;
     flex-direction: column;
 }
+.evens-page-landing-photo {
+    display: flex;
+    width: 800px;
+    height: 280px;
+    object-fit: cover;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
 .event-image {
     border-radius: 15px;
     width: 240px;
@@ -66,27 +75,6 @@
 .filter-button:hover {
     color: white;
 }
-.search_input {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    width: 750px;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    background-color: transparent;
-}
-.search-container {
-    padding: 17px;
-    gap: 10px;
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #e9eaef;
-}
-
 .events-grid {
     display: flex;
     flex-wrap: wrap;
@@ -102,15 +90,6 @@
     justify-content: flex-end;
     margin-top: 100px;
     gap: 20px;
-}
-.button-bordered {
-    font-size: 16px;
-    color: #f5f5f5;
-    border: 1px solid #2c2c2c;
-    border-radius: 5px;
-    background-color: #2c2c2c;
-    padding: 10px;
-    cursor: pointer;
 }
 .description {
     font-size: 24px;

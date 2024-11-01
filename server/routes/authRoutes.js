@@ -92,7 +92,7 @@ router.put('/users/:id', upload.single('avatar'), async (req, res) => {
         console.log('Updated user:', user);
         res.json(user);
     } catch (error) {
-        console.error('Error during profile update:', error);
+        console.error('Error during ProfilePage update:', error);
         res.status(500).json({ message: 'Помилка при оновленні даних', error: error.message });
     }
 });

@@ -30,3 +30,7 @@ export const RequireAuth = ({ children }) => {
     }
     return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
+export const logout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+};
