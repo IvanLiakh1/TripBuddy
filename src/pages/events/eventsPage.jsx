@@ -1,6 +1,7 @@
 import './events.css';
 
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import axiosInstance from '../../../server/axios/axiosInstance.js';
 import photo from '../../assets/eventsPhoto.png';
@@ -9,23 +10,27 @@ import glass from '../../assets/MagnifyingGlass.svg';
 import { isAuthOK } from '../../component/auth/verifyJWT.js';
 import EventCard from '../../component/event/EventCard.jsx';
 import Layout from '../../component/layout.js';
-import FilterSidebar from './FilterPopUp.jsx';
+import FilterPopup from './FilterPopUp.jsx';
 
 function EventsPage() {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [sortBy, setSortBy] = useState('date');
-    const [order, setOrder] = useState('asc');
     const [filterBy, setFilterBy] = useState('all');
     const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const sortByFromQuery = queryParams.get('sortBy') || 'participantsCount';
+    const orderFromQuery = queryParams.get('order') || 'asc';
+    const [sortBy, setSortBy] = useState(sortByFromQuery);
+    const [order, setOrder] = useState(orderFromQuery);
 
     const user = isAuthOK();
     const userId = user.id;
 
     const fetchEvents = async () => {
         try {
-            const response = await axiosInstance.get('/event/search');
+            const response = await axiosInstance.get(`/event/search?sortBy=${sortBy}&order=${order}`);
             setEvents(response.data);
             setFilteredEvents(response.data);
         } catch (error) {
@@ -35,7 +40,7 @@ function EventsPage() {
 
     useEffect(() => {
         fetchEvents();
-    }, []);
+    }, [sortBy, order]);
 
     const applyFilters = () => {
         let updatedEvents = [...events];
@@ -48,15 +53,14 @@ function EventsPage() {
         } else if (filterBy === 'participating') {
             updatedEvents = updatedEvents.filter((event) => event.participants.includes(userId));
         }
+
         updatedEvents.sort((a, b) => {
-            if (sortBy === 'date') {
+            if (sortBy === 'date' || sortBy === 'updatedAt') {
                 return order === 'asc'
-                    ? new Date(a.createdAt) - new Date(b.createdAt)
-                    : new Date(b.createdAt) - new Date(a.createdAt);
+                    ? new Date(a[sortBy]) - new Date(b[sortBy])
+                    : new Date(b[sortBy]) - new Date(a[sortBy]);
             } else if (sortBy === 'participantsCount') {
-                return order === 'asc'
-                    ? a.participants.length - b.participants.length
-                    : b.participants.length - a.participants.length;
+                return order === 'asc' ? a.maxParticipants - b.maxParticipants : b.maxParticipants - a.maxParticipants;
             }
             return 0;
         });
@@ -76,7 +80,7 @@ function EventsPage() {
             <Layout>
                 <div className="events-page position-center-width">
                     <img src={photo} className="" style={{ marginTop: 10 }} alt="events" />
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                         <div className="search-container" style={{ width: 650 }}>
                             <img src={glass} alt="search" />
                             <form onSubmit={(e) => e.preventDefault()}>
@@ -104,11 +108,16 @@ function EventsPage() {
                         )}
                     </div>
 
-                    <FilterSidebar
+                    {/* Спливаюче вікно фільтрації */}
+                    <FilterPopup
                         isOpen={isFilterPopupOpen}
                         onClose={() => setIsFilterPopupOpen(false)}
                         filterBy={filterBy}
                         setFilterBy={setFilterBy}
+                        sortBy={sortBy}
+                        setSortBy={setSortBy}
+                        order={order}
+                        setOrder={setOrder}
                     />
                 </div>
             </Layout>

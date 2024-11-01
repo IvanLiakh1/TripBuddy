@@ -110,5 +110,15 @@ router.put('/:id/leave', async (req, res) => {
         res.status(500).send('Помилка сервера');
     }
 });
+const checkExpiredEvents = async () => {
+    try {
+        const currentDate = new Date();
+        const result = await Event.deleteMany({ endDate: { $lt: currentDate } });
+        console.log(`Видалено ${result.deletedCount} подій, які закінчилися.`);
+    } catch (error) {
+        console.error('Помилка при видаленні подій:', error);
+    }
+};
+setInterval(checkExpiredEvents, 3_600_000);
 
 export default router;

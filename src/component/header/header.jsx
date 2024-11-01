@@ -18,7 +18,7 @@ function Header() {
                 <Link className="nav-item" to="/events">
                     Події
                 </Link>
-                <Link className="nav-item" to="/">
+                <Link className="nav-item" to="/events?sortBy=updatedAt&order=desc">
                     Останні
                 </Link>
                 <Link className="nav-item" to="/create">

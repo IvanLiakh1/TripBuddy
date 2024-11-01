@@ -17,7 +17,6 @@ function EventInfo() {
     const user = useContext(AuthContext);
     const [showParticipants, setShowParticipants] = useState(false);
     const [isParticipant, setIsParticipant] = useState(false);
-
     const fetchEventDetails = async () => {
         const eventId = location.state?.event?._id;
         if (!eventId) {
@@ -96,9 +95,10 @@ function EventInfo() {
     }
 
     if (!event || !user) return <p>Завантаження...</p>;
+    const currentDate = new Date();
     const isAuthor = event.author?._id === user.id;
-    const isFull = event.participants === event.maxParticipants;
-
+    let isFull = event.participants === event.maxParticipants;
+    if (event.startDate < currentDate) isFull = true;
     return (
         <div className="app-container">
             <Layout>
