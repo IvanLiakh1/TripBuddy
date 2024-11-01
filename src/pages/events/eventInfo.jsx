@@ -1,4 +1,4 @@
-import React, { useContext,useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import axiosInstance from '../../../server/axios/axiosInstance.js';
@@ -8,33 +8,37 @@ import map from '../../assets/Map.svg';
 import participants from '../../assets/Participantsimg.svg';
 import { AuthContext } from '../../component/auth/verifyJWT.js';
 import Layout from '../../component/layout.js';
+import ParticipantsModal from './ParticipantsModal.jsx';
 
 function EventInfo() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [event, setEvent] = useState(location.state?.event || null);
+    const [event, setEvent] = useState(null);
     const user = useContext(AuthContext);
+    const [showParticipants, setShowParticipants] = useState(false);
+    const [isParticipant, setIsParticipant] = useState(false);
+
+    const fetchEventDetails = async () => {
+        const eventId = location.state?.event?._id;
+        if (!eventId) {
+            console.error('ID події не знайдено');
+            return;
+        }
+        try {
+            const response = await axiosInstance.get(`/event/${eventId}`);
+            console.log(response.data);
+            setEvent(response.data);
+            const isParticipant = response.data.participants.some((participant) => participant._id === user.id);
+            console.log(user.id);
+            setIsParticipant(isParticipant);
+        } catch (error) {
+            console.error('Помилка завантаження деталей події:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchEventDetails = async () => {
-            try {
-                const response = await axiosInstance.get(`/event/${event._id}`);
-
-                setEvent(response.data);
-            } catch (error) {
-                console.error('Помилка завантаження деталей події:', error);
-            }
-        };
-
-        if (event) {
-            const isParticipant = event.participants.includes(user.id);
-            if (!isParticipant) {
-                console.log('Користувач не є учасником після оновлення події');
-            }
-        } else {
-            fetchEventDetails();
-        }
-    }, [event, user.id]);
+        fetchEventDetails();
+    }, [user.id, location.state]);
 
     const handleParticipate = async () => {
         try {
@@ -43,6 +47,7 @@ function EventInfo() {
                 ...prevEvent,
                 participants: response.data.participants,
             }));
+            fetchEventDetails();
         } catch (error) {
             console.error('Помилка при додаванні до учасників:', error);
         }
@@ -51,18 +56,22 @@ function EventInfo() {
     const handleLeave = async () => {
         if (!event?._id) return;
         try {
-            console.log(`Запит на вихід з події: Подія ID = ${event._id}, Користувач ID = ${user.id}`);
             const response = await axiosInstance.put(`/event/${event._id}/leave`, { userId: user.id });
-            console.log('Відповідь сервера після виходу:', response.data);
             setEvent((prevEvent) => ({
                 ...prevEvent,
                 participants: response.data.participants,
             }));
+            fetchEventDetails();
             alert('Ви покинули подію!');
         } catch (error) {
             console.error('Помилка при виході з події:', error);
         }
     };
+
+    const handleNavigateToProfile = (userId) => {
+        navigate(`/profile`, { state: { userId } });
+    };
+
     function formatDate(sDate) {
         const date = new Date(sDate);
         const months = [
@@ -86,8 +95,9 @@ function EventInfo() {
         return `${day} ${month} ${year}`;
     }
 
-    const isParticipant = event?.participants.includes(user.id);
     if (!event || !user) return <p>Завантаження...</p>;
+    const isAuthor = event.author?._id === user.id;
+    const isFull = event.participants === event.maxParticipants;
 
     return (
         <div className="app-container">
@@ -102,28 +112,41 @@ function EventInfo() {
                         <div style={{ marginLeft: 25, display: 'flex', flexDirection: 'column', gap: 10 }}>
                             <div className="event-title-button-container">
                                 <p style={{ fontSize: 30 }}>{event.title}</p>
-                                {isParticipant ? (
-                                    <button className="button-bordered" style={{ fontSize: 15 }} onClick={handleLeave}>
-                                        Покинути зустріч
-                                    </button>
-                                ) : (
-                                    <button
-                                        className="button-bordered"
-                                        style={{ fontSize: 15 }}
-                                        onClick={handleParticipate}
-                                    >
-                                        Взяти участь
-                                    </button>
-                                )}
+                                {isFull &&
+                                    !isAuthor &&
+                                    (isParticipant ? (
+                                        <button
+                                            className="button-bordered"
+                                            style={{ fontSize: 15 }}
+                                            onClick={() => handleLeave()}
+                                        >
+                                            Покинути зустріч
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="button-bordered"
+                                            style={{ fontSize: 15 }}
+                                            onClick={() => handleParticipate()}
+                                        >
+                                            Взяти участь
+                                        </button>
+                                    ))}
                             </div>
-                            <span className="event-card-author" style={{ fontSize: 24 }}>
+                            <span
+                                className="event-card-author"
+                                style={{ fontSize: 24, cursor: 'pointer' }}
+                                onClick={() => handleNavigateToProfile(event.author?._id)}
+                            >
                                 {event.author?.fullName}
                             </span>
                             <div className="participants">
                                 <img src={participants} style={{ width: 28 }} />
                                 <p
-                                    style={{ fontSize: 18, marginLeft: 3 }}
-                                >{`${event.participants.length}/${event.maxParticipants}`}</p>
+                                    style={{ fontSize: 18, marginLeft: 3, cursor: 'pointer' }}
+                                    onClick={() => setShowParticipants(true)}
+                                >
+                                    {`${event.participants.length}/${event.maxParticipants}`}
+                                </p>
                             </div>
                             <div className="row-gap-align">
                                 <span className="date"> {formatDate(event.startDate)}</span>
@@ -139,6 +162,13 @@ function EventInfo() {
                         </div>
                     </div>
                     <span className="description">{event.description}</span>
+                    {showParticipants && (
+                        <ParticipantsModal
+                            participants={event.participants}
+                            onParticipantClick={handleNavigateToProfile}
+                            onClose={() => setShowParticipants(false)}
+                        />
+                    )}
                 </div>
             </Layout>
         </div>

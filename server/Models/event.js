@@ -32,11 +32,7 @@ const eventSchema = new mongoose.Schema(
             min: 2,
         },
 
-        participants: {
-            type: [mongoose.Schema.Types.ObjectId],
-            ref: 'User',
-            default: [],
-        },
+        participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
         tags: {
             type: [String],

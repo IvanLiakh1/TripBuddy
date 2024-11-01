@@ -1,6 +1,7 @@
 import './profile.css';
 
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import axiosInstance from '../../../server/axios/axiosInstance.js';
 import defaultAvatar from '../../assets/profileIcon.svg';
@@ -8,16 +9,18 @@ import { isAuthOK } from '../../component/auth/verifyJWT.js';
 import Layout from '../../component/layout.js';
 import EditProfile from '../../component/user/editProfile.jsx';
 
-const user = isAuthOK();
 const ProfilePage = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const location = useLocation();
+    const currentUser = isAuthOK();
+    const userId = location.state?.userId || currentUser.id;
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axiosInstance.get(`/users/${user.id}`);
+                const response = await axiosInstance.get(`/users/${userId}`);
                 setUserData(response.data);
             } catch (error_) {
                 setError(error_.response?.data?.message || 'Помилка при отриманні даних');
@@ -26,27 +29,24 @@ const ProfilePage = () => {
             }
         };
         fetchUserData();
-    }, []);
+    }, [userId]);
     const handleEditClick = () => {
         setIsEditing(true);
     };
-
     const handleSave = (updatedUserData) => {
         setUserData(updatedUserData);
         setIsEditing(false);
     };
-
     const handleCancel = () => {
         setIsEditing(false);
     };
     if (loading) {
         return <p>Завантаження...</p>;
     }
-
     if (error) {
         return <p>{error}</p>;
     }
-
+    const isOwnProfile = currentUser.id === userData._id;
     if (!userData) {
         return <p>Користувача не знайдено.</p>;
     }
@@ -80,9 +80,11 @@ const ProfilePage = () => {
                                                 </>
                                             )}
                                         </h2>
-                                        <button className="edit-profile-button tags" onClick={handleEditClick}>
-                                            Редагувати профіль
-                                        </button>
+                                        {isOwnProfile && (
+                                            <button className="edit-profile-button tags" onClick={handleEditClick}>
+                                                Редагувати профіль
+                                            </button>
+                                        )}
                                     </div>
                                     {userData.tags.length > 0
                                         ? userData.tags.map((tag, index) => (

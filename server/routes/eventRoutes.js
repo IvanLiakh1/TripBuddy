@@ -47,7 +47,7 @@ router.post('/create', verifyToken, upload.single('image'), createEventValidatio
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const event = await Event.findById(id).populate('author', 'fullName');
+        const event = await Event.findById(id).populate('author', 'fullName').populate('participants', '_id fullName');
         if (!event) {
             return res.status(404).json({ message: 'Подію не знайдено' });
         }
@@ -62,6 +62,9 @@ router.put('/:id/participate', async (req, res) => {
     const { userId } = req.body;
     try {
         const event = await Event.findById(id);
+        if (event.participants.length >= event.maxParticipants) {
+            return res.status(400).json({ message: 'Максимальна кількість учасників досягнута' });
+        }
         if (!event.participants.includes(userId)) {
             event.participants.push(userId);
             await event.save();
