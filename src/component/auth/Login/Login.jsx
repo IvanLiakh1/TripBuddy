@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { isAuthOK } from '../verifyJWT.js';
+import { isAuthOK } from '../verifyJWT.jsx';
 
 const Login = () => {
     const [email, setEmail] = useState('');

@@ -1,15 +1,17 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import crypto from 'crypto-browserify';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const __dirname = import.meta.dirname;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const config = {
-    entry: './src/index.js',
+    entry: './src/index.jsx',
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'app.js',
+        clean: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -19,15 +21,15 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env', '@babel/preset-react'],
-                        },
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        plugins: ['@babel/plugin-syntax-jsx'],
                     },
-                ],
+                },
             },
             {
                 test: /\.css$/,
@@ -50,7 +52,10 @@ const config = {
             process: 'process/browser',
         },
     },
-    devServer: { historyApiFallback: true },
+    devServer: {
+        historyApiFallback: true,
+        open: true,
+    },
 };
 
 export default config;

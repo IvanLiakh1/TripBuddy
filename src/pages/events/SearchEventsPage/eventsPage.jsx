@@ -7,10 +7,10 @@ import axiosInstance from '../../../../server/axios/axiosInstance.js';
 import photo from '../../../assets/eventsPhoto.jpg';
 import filter from '../../../assets/filter.svg';
 import glass from '../../../assets/MagnifyingGlass.svg';
-import { isAuthOK } from '../../../component/auth/verifyJWT.js';
+import { isAuthOK } from '../../../component/auth/verifyJWT.jsx';
 import EventCard from '../../../component/event/EventCard/EventCard.jsx';
 import FilterPopup from '../../../component/event/PopUp/FilterPopUp.jsx';
-import Layout from '../../../component/layout.js';
+import Layout from '../../../component/layout.jsx';
 
 function EventsPage() {
     const [events, setEvents] = useState([]);
@@ -24,7 +24,6 @@ function EventsPage() {
     const orderFromQuery = queryParams.get('order') || 'asc';
     const [sortBy, setSortBy] = useState(sortByFromQuery);
     const [order, setOrder] = useState(orderFromQuery);
-
     const user = isAuthOK();
     const userId = user.id;
 

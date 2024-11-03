@@ -3,7 +3,7 @@ import './HeaderStyle.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { isAuthOK } from '../auth/verifyJWT.js';
+import { isAuthOK } from '../auth/verifyJWT.jsx';
 import profile from './profileIcon.svg';
 
 const user = isAuthOK();

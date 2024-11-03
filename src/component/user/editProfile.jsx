@@ -101,6 +101,7 @@ const EditProfile = ({ userData, onSave, onCancel }) => {
                 onChange={handleInputChange}
                 placeholder="Ім'я"
                 className="input"
+                style={{ fontSize: 18 }}
             />
             <textarea
                 name="bio"
@@ -116,6 +117,7 @@ const EditProfile = ({ userData, onSave, onCancel }) => {
                 onChange={handleInputChange}
                 placeholder="Введіть теги через кому "
                 className="input"
+                style={{ fontSize: 18 }}
             />
             <div className="buttons">
                 <button

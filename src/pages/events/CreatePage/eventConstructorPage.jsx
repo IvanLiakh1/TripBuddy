@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import axiosInstance from '../../../../server/axios/axiosInstance.js';
 import defimage from '../../../assets/EventPrimaryImage.jpg';
-import Layout from '../../../component/layout.js';
+import Layout from '../../../component/layout.jsx';
 
 function EventConstructorPage() {
     const navigate = useNavigate();

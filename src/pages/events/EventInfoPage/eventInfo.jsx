@@ -6,9 +6,9 @@ import defImage from '../../../assets/EventPrimaryImage.jpg';
 import line from '../../../assets/Line.svg';
 import map from '../../../assets/Map.svg';
 import participants from '../../../assets/Participantsimg.svg';
-import { AuthContext } from '../../../component/auth/verifyJWT.js';
+import { AuthContext } from '../../../component/auth/verifyJWT.jsx';
 import ParticipantsModal from '../../../component/event/ModalWindow/ParticipantsModal.jsx';
-import Layout from '../../../component/layout.js';
+import Layout from '../../../component/layout.jsx';
 
 function EventInfo() {
     const location = useLocation();

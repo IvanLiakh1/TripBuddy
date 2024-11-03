@@ -5,8 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import axiosInstance from '../../../server/axios/axiosInstance.js';
 import defaultAvatar from '../../assets/profileIcon.svg';
-import { isAuthOK, logout } from '../../component/auth/verifyJWT.js';
-import Layout from '../../component/layout.js';
+import { isAuthOK, logout } from '../../component/auth/verifyJWT.jsx';
+import Layout from '../../component/layout.jsx';
 import EditProfile from '../../component/user/editProfile.jsx';
 
 const ProfilePage = () => {

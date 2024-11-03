@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Login from './component/auth/Login/Login.jsx';
 import Register from './component/auth/Register/Register.jsx';
-import { RequireAuth } from './component/auth/verifyJWT.js';
+import { RequireAuth } from './component/auth/verifyJWT.jsx';
 import EventConstructorPage from './pages/events/CreatePage/eventConstructorPage.jsx';
 import EventInfo from './pages/events/EventInfoPage/eventInfo.jsx';
 import EventsPage from './pages/events/SearchEventsPage/eventsPage.jsx';
