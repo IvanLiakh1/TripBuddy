@@ -3,7 +3,7 @@ describe('Register Page', () => {
         cy.visit('/register');
     });
 
-    it('should display the registration form', () => {
+    it('Має відобразити форму реєстрації', () => {
         cy.get('h2').should('contain', 'Реєстрація');
         cy.get('input[type="email"]').should('be.visible');
         cy.get('input[type="password"]').should('be.visible');
@@ -12,7 +12,7 @@ describe('Register Page', () => {
         cy.get('button[type="submit"]').should('contain', 'Зареєструватися');
     });
 
-    it('should register successfully with valid credentials', () => {
+    it('Має зареєструвати користувача', () => {
         cy.intercept('POST', 'http://localhost:3000/api/register', {
             statusCode: 200,
             body: {
@@ -30,7 +30,7 @@ describe('Register Page', () => {
         cy.url().should('eq', 'http://localhost:8080/login');
     });
 
-    it('should display error message for existing user', () => {
+    it('Має відобразити повідомлення про те що користувач вже існує', () => {
         cy.intercept('POST', 'http://localhost:3000/api/register', {
             statusCode: 409,
             body: {

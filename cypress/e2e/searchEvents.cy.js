@@ -44,4 +44,7 @@ describe('Events Page E2E', () => {
         cy.get('.events-grid').children().should('have.length', 1);
         cy.contains('Немає подій для відображення.').should('exist');
     });
+
+
+
 });

@@ -24,7 +24,6 @@ describe('Event Constructor Page', () => {
 
     it('Має показати помилки валідації', () => {
         cy.get('button').contains('Додати подію').click();
-
         cy.get('p').contains("Назва події є обов'язковою").should('be.visible');
         cy.get('p').contains("Опис події є обов'язковим").should('be.visible');
         cy.get('p').contains("Початкова точка є обов'язковою").should('be.visible');
@@ -41,13 +40,30 @@ describe('Event Constructor Page', () => {
         cy.get('p').contains('Кількість символів замала або завелика (10-150)').should('not.exist');
 
         cy.get('input[name="title"]').type('Це дуже довга назва події, що перевищує 25 символів');
-        cy.get('textarea[name="description"]').type('test');
+        cy.get('textarea[name="description"]').clear().type('test');
 
         cy.get('button').contains('Додати подію').click();
+        cy.wait(1000);
 
-        cy.get('p').contains('Назва події не повинна перевищувати 25 символів').should('exist');
-        cy.get('p').contains('Кількість символів замала або завелика (10-150)').should('exist');
+        cy.get('p').should(($p) => {
+            expect($p).to.contain('Назва події не повинна перевищувати 25 символів');
+            expect($p).to.contain('Кількість символів замала або завелика (10-150)');
+
+        });
     });
+    it('Валідує дату', () => {
+        cy.get('input[name="startDate"]').type('2024-11-05');
+        cy.get('input[name="endDate"]').type('2024-11-04');
+        cy.get('button').contains('Додати подію').click();
+        cy.contains('Дата закінчення повинна бути пізніше дати початку').should('be.visible');
+    });
+    it('Валідує дату', () => {
+        cy.get('input[name="startDate"]').type('2024-11-05');
+        cy.get('input[name="endDate"]').type('2024-11-04');
+        cy.get('button').contains('Додати подію').click();
+        cy.contains('Дата закінчення повинна бути пізніше дати початку').should('be.visible');
+    });
+
 
     it('Має створити подію', () => {
         cy.get('input[name="title"]').type('Назва події');
@@ -81,4 +97,25 @@ describe('Event Constructor Page', () => {
         cy.get('button').contains('Скасувати').click();
         cy.url().should('eq', Cypress.config().baseUrl + '/');
     });
+        it('should allow the user to upload an event photo', () => {
+
+            cy.get('input[name="title"]').type('Велоподорож до Карпат');
+            cy.get('textarea[name="description"]').type('Крута подорож. Бери друзів і погнали.');
+            cy.get('input[name="startLocation"]').type('Львів');
+            cy.get('input[name="endLocation"]').type('Карпати');
+            cy.get('input[name="maxParticipants"]').clear().type('5');
+            cy.get('input[name="startDate"]').type('2024-11-05');
+            cy.get('input[name="endDate"]').type('2024-11-06');
+            cy.fixture('5988411.png', 'base64').then((fileContent) => {
+                const base64Image = `data:image/png;base64,${fileContent}`;
+                cy.get('input[type="file"]').attachFile({
+                    fileContent: fileContent,
+                    fileName: '5988411.png',
+                    mimeType: 'image/png',
+                    encoding: 'base64',
+                });
+            });
+            cy.get('button').contains('Додати подію').click();
+
+        });
 });

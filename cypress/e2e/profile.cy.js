@@ -106,4 +106,8 @@ describe('Profile Page E2E Tests', () => {
         cy.visit('/profile');
         cy.contains('Помилка при отриманні даних').should('be.visible');
     });
+    it('Має перекинути на сторінку авторизації', () => {
+        cy.wait(3000);
+        cy.url().should('include', '/login');
+    });
 });

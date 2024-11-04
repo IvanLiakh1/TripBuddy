@@ -177,7 +177,6 @@ function EventConstructorPage() {
                         <h2 className="create-event-font">Опис події</h2>
                         <div className="search-container">
                             <textarea
-                                type="text"
                                 name="description"
                                 placeholder="Крута подорож. Бери друзів і погнали."
                                 className="search_input"

@@ -13,8 +13,8 @@ describe('Event Search and Details', () => {
     it('Має перейти на сторінку події', () => {
         cy.get('.event-card').first().click();
         cy.url().should('include', '/event');
-        cy.get('p').should('be.visible').and('contain', 'Тестова подія');
-        cy.get('.description').should('be.visible').and('contain', '12312412454235');
+        cy.get('p').should('be.visible').and('contain', 'Назва події');
+        cy.get('.description').should('be.visible').and('contain', 'Це опис події.');
     });
     it('Має взяти участь', () => {
         cy.get('.event-card').first().click();
@@ -38,7 +38,21 @@ describe('Event Search and Details', () => {
     });
     it('Має відобразити кількість учасників', () => {
         cy.get('.event-card').first().click();
-        cy.get('.participants').click();
-        cy.get('.');
+        cy.get('.participants').contains('1/10').click();
+        cy.get('h2').contains('Учасники').should('be.visible');
+    });
+    it('Має перейти на профіль учасника', () => {
+        cy.get('.event-card').first().click();
+        cy.get('.participants').contains('1/10').click();
+        cy.get('h2').contains('Учасники').should('be.visible');
+        cy.get('.participant').contains('Іван').click();
+        cy.url().should('include', '/profile');
+
+    });
+    it('Має закрити модальне вікно', () => {
+        cy.get('.event-card').first().click();
+        cy.get('.participants').contains('1/10').click();
+        cy.get('h2').contains('Учасники').should('be.visible');
+        cy.get('.close-button').click();
     });
 });
