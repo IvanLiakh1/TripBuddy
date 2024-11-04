@@ -1,8 +1,6 @@
-// cypress/e2e/register.cy.js
-
 describe('Register Page', () => {
     beforeEach(() => {
-        cy.visit('/register'); // Відкриваємо сторінку реєстрації
+        cy.visit('/register');
     });
 
     it('should display the registration form', () => {
@@ -29,7 +27,7 @@ describe('Register Page', () => {
         cy.get('button[type="submit"]').click();
 
         cy.wait('@registerRequest').its('response.statusCode').should('eq', 200);
-        cy.url().should('eq', 'http://localhost:8080/login'); // Перевіряємо перенаправлення на сторінку логіна
+        cy.url().should('eq', 'http://localhost:8080/login');
     });
 
     it('should display error message for existing user', () => {
@@ -47,6 +45,6 @@ describe('Register Page', () => {
         cy.get('button[type="submit"]').click();
 
         cy.wait('@registerRequest').its('response.statusCode').should('eq', 409);
-        cy.get('.error-message').should('contain', 'Користувач вже існує'); // Перевіряємо повідомлення про помилку
+        cy.get('.error-message').should('contain', 'Користувач вже існує');
     });
 });

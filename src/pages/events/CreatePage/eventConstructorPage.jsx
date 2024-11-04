@@ -71,7 +71,7 @@ function EventConstructorPage() {
         }
 
         if (!formData.startDate) {
-            errors.startDate = "Дата початку є об'язковою";
+            errors.startDate = "Дата початку є обов'язковою";
         } else if (!Date.parse(formData.startDate)) {
             errors.startDate = 'Дата початку повинна бути у форматі ISO 8601';
         }

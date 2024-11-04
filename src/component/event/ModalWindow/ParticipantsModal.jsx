@@ -1,4 +1,3 @@
-// ParticipantsModal.js
 import './modalStyle.css';
 
 import React from 'react';

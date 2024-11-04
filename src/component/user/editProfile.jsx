@@ -38,16 +38,13 @@ const EditProfile = ({ userData, onSave, onCancel }) => {
     };
 
     const validateFormData = () => {
-        if (!formData.fullName) {
+        if (!formData.fullName || formData.fullName.length >= 25) {
             return "Поле 'Ім'я' не може бути пустим.";
         }
         if (!formData.bio || formData.bio.size > 200) {
             return "Поле 'Біографія' має невірний формат";
         }
-        if (!formData.dateOfBirth) {
-            return "Поле 'Дата народження' не може бути пустим.";
-        }
-        if (!formData.tags) {
+        if (!formData.tags || formData.tags.length >= 30) {
             return "Поле 'Теги' не може бути пустим.";
         }
         return null;
