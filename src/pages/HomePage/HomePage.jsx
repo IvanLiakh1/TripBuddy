@@ -1,7 +1,5 @@
-import './style.css';
-
+import './homepage.css';
 import React from 'react';
-
 import cycle from '../../assets/bicycle.svg';
 import photogrid from '../../assets/Photo _grid.png';
 import Layout from '../../component/layout.jsx';
@@ -12,7 +10,7 @@ function HomePage() {
             <Layout>
                 <div className="main_page">
                     <div className="about-us-container">
-                        <img src={cycle} alt="велосипед" /> {/* Додайте alt текст */}
+                        <img src={cycle} alt="велосипед" />
                         <span className="about-us-font">
                             TripBuddy — це сайт, на якому можна знайти учасників для подорожей та спортивних заходів,
                             які націлені на групові активні або пасивні відпочинки. На сайті зустрічаються два типи
@@ -22,7 +20,7 @@ function HomePage() {
                     <h2 className="about-us-font center" style={{ marginTop: 15, marginBottom: 10 }}>
                         НЕОБМЕЖЕНА КІЛЬКІСТЬ ВАРІАНТІВ ПРОВЕДЕННЯ ЧАСУ
                     </h2>
-                    <img src={photogrid} alt="фото" className="photogrid" /> {/* Додайте alt текст */}
+                    <img src={photogrid} alt="фото" className="photogrid" />
                 </div>
             </Layout>
         </div>

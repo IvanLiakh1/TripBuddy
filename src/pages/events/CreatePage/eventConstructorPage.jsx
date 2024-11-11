@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import axiosInstance from '../../../../server/axios/axiosInstance.js';
 import defimage from '../../../assets/EventPrimaryImage.jpg';
 import Layout from '../../../component/layout.jsx';
+import AutoComplete from '../../../component/event/AutoComplete/AutoComplete.jsx';
 
 function EventConstructorPage() {
     const navigate = useNavigate();
@@ -189,26 +189,21 @@ function EventConstructorPage() {
 
                         <h2 className="create-event-font">Початкова точка</h2>
                         <div className="search-container">
-                            <input
-                                type="text"
-                                name="startLocation"
+                            <AutoComplete
+                                placeholder="Початкова точка"
                                 value={formData.startLocation}
                                 onChange={handleInputChange}
-                                placeholder="Велоподорож до Карпат"
-                                className="search_input"
+                                name="startLocation"
                             />
                         </div>
                         {formErrors.startLocation && <p style={{ color: 'red' }}>{formErrors.startLocation}</p>}
-
                         <h2 className="create-event-font">Кінцева точка</h2>
                         <div className="search-container">
-                            <input
-                                type="text"
-                                name="endLocation"
+                            <AutoComplete
+                                placeholder="Кінцева точка"
                                 value={formData.endLocation}
                                 onChange={handleInputChange}
-                                placeholder="Велоподорож до Карпат"
-                                className="search_input"
+                                name="endLocation"
                             />
                         </div>
                         {formErrors.endLocation && <p style={{ color: 'red' }}>{formErrors.endLocation}</p>}

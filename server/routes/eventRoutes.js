@@ -5,6 +5,7 @@ import multer from 'multer';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { Event } from '../Models/event.js';
 import { createEventValidation } from '../validation/eventValidation.js';
+import axios from 'axios';
 
 const router = express.Router();
 const upload = multer();
@@ -20,7 +21,19 @@ router.get('/search', verifyToken, async (req, res) => {
         res.status(500).json({ message: 'Помилка сервера', error: error.message });
     }
 });
-
+    router.get('/autocomplete', async (req, res) => {
+        const { input } = req.query;
+        const apiKey = process.env.GoogleApi;
+        const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${apiKey}`;
+        console.log("Received input for autocomplete:", input);
+        try {
+            const response = await axios.get(url);
+            res.json(response.data);
+        } catch (error) {
+            console.error('Error fetching autocomplete data:', error);
+            res.status(500).json({ message: 'Error fetching data from Google Maps API' });
+        }
+    });
 router.post('/create', verifyToken, upload.single('image'), createEventValidation, async (req, res) => {
     try {
         console.log('Тіло запиту:', req.body);
@@ -126,6 +139,7 @@ const checkExpiredEvents = async () => {
         console.error('Помилка при видаленні подій:', error);
     }
 };
+
 
 setInterval(checkExpiredEvents, 3_600_000);
 
